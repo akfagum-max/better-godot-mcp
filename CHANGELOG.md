@@ -2,6 +2,70 @@
 
 <!-- version list -->
 
+## v1.19.0-beta.1 (2026-06-18)
+
+### Bug Fixes
+
+- Centralize logger stderr output via shared emit helper
+  ([`5d395cc`](https://github.com/n24q02m/better-godot-mcp/commit/5d395cceb646b33f9f0f7d41898ca9bca375a5d8))
+
+- Correct auth and storage notes for credential-less server
+  ([`1ff5274`](https://github.com/n24q02m/better-godot-mcp/commit/1ff5274d3b18fdf07303ffe02f096ab52ecea5b7))
+
+- Extract handleResources actions into dispatcher map in resources.ts
+  ([`9f4d1aa`](https://github.com/n24q02m/better-godot-mcp/commit/9f4d1aad6a353aa8434a80bee4add2899e5725f3))
+
+- Guard non-string spawn output and error fields in headless exec
+  ([`ca75b88`](https://github.com/n24q02m/better-godot-mcp/commit/ca75b886999e9b8b426ab5b59456bb6d5f04deb7))
+
+- Load help docs via EAFP try/catch to drop redundant pathExists syscall
+  ([`e990ec3`](https://github.com/n24q02m/better-godot-mcp/commit/e990ec3ef625d12e0e6cad478a6c6215485958d8))
+
+- Refresh lockfile (renovate maintenance)
+  ([`ba74b02`](https://github.com/n24q02m/better-godot-mcp/commit/ba74b0274776a852bd7e97139f5bf357bc099937))
+
+- Remove orphaned Qodo pr-agent config
+  ([#851](https://github.com/n24q02m/better-godot-mcp/pull/851),
+  [`caf2da2`](https://github.com/n24q02m/better-godot-mcp/commit/caf2da2a605a30465bca297be5e7c55376738848))
+
+- Remove unused ProjectSettings import in physics.ts
+  ([`f5b9257`](https://github.com/n24q02m/better-godot-mcp/commit/f5b925756da66567fe0d729a7e7a3cbd4c6a6136))
+
+- Restore PSR changelog generation and backfill version history
+  ([#854](https://github.com/n24q02m/better-godot-mcp/pull/854),
+  [`5d52508`](https://github.com/n24q02m/better-godot-mcp/commit/5d52508e5bd497f14013ee22d09ec428da301bfa))
+
+- Split handleSignals into per-action handlers with dispatcher map
+  ([`4c54cf4`](https://github.com/n24q02m/better-godot-mcp/commit/4c54cf4c628b7f9ff5676110f65aa90b7508bccc))
+
+- Sync README tagline to current capability description
+  ([#856](https://github.com/n24q02m/better-godot-mcp/pull/856),
+  [`d4ff562`](https://github.com/n24q02m/better-godot-mcp/commit/d4ff562c206dbe723cdb8c6e84d75c71446a0e2d))
+
+- Trim inputs before hyphen check to block space-padded flag injection in project tool
+  ([`8146d84`](https://github.com/n24q02m/better-godot-mcp/commit/8146d846f6c3a99f709505cca6fdc438dbb81339))
+
+- Trim whitespace before hyphen check in config path validation
+  ([`282c31f`](https://github.com/n24q02m/better-godot-mcp/commit/282c31f6f62158514e2d1d55485c5504bb135ce6))
+
+- Update node.js base image
+  ([`44cc23c`](https://github.com/n24q02m/better-godot-mcp/commit/44cc23c7953dba107d75702d1a07e3ab74270990))
+
+- Update non-major dependencies
+  ([`d469caf`](https://github.com/n24q02m/better-godot-mcp/commit/d469caf3fc7859024c5fce2c33ed8e043a510a2e))
+
+- Use atomic wx-flag write and EAFP file I/O in tilemap tool
+  ([`0207c6d`](https://github.com/n24q02m/better-godot-mcp/commit/0207c6dedcb56af83c8ae1e48ff40f278868ce3d))
+
+- **helpers**: Prioritize prefix and containment matches in findClosestMatch
+  ([`ab965a8`](https://github.com/n24q02m/better-godot-mcp/commit/ab965a8f08a01ca3f08e95bb680d7ef354d6f1f0))
+
+### Features
+
+- Sync cross-promo section ([#857](https://github.com/n24q02m/better-godot-mcp/pull/857),
+  [`d216cef`](https://github.com/n24q02m/better-godot-mcp/commit/d216cefeb575ab781d9652845ee5bf80a907838a))
+
+
 ## v1.18.9-beta.2 (2026-06-10)
 
 ### Bug Fixes
