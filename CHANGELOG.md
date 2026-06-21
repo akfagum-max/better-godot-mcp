@@ -2,6 +2,35 @@
 
 <!-- version list -->
 
+## v1.19.0-beta.2 (2026-06-21)
+
+### Chores
+
+- **deps**: Lock file maintenance ([#901](https://github.com/n24q02m/better-godot-mcp/pull/901),
+  [`7e12d8d`](https://github.com/n24q02m/better-godot-mcp/commit/7e12d8d5420c5cb3571e35d06e0fedd311e39c1e))
+
+- **deps**: Update actions/checkout action to v7
+  ([#900](https://github.com/n24q02m/better-godot-mcp/pull/900),
+  [`1c5b048`](https://github.com/n24q02m/better-godot-mcp/commit/1c5b0489dc286ee4c9e702a1b6dc096e3cd62bcc))
+
+- **deps**: Update dependency @types/node to v26
+  ([#903](https://github.com/n24q02m/better-godot-mcp/pull/903),
+  [`311f55c`](https://github.com/n24q02m/better-godot-mcp/commit/311f55c31d9181c6c656300d6b9b3eb8333797c3))
+
+- **deps**: Update non-major dependencies
+  ([#899](https://github.com/n24q02m/better-godot-mcp/pull/899),
+  [`698bfa7`](https://github.com/n24q02m/better-godot-mcp/commit/698bfa78e03b701b9007407f728ffd64fac8e70b))
+
+### Performance Improvements
+
+- Optimize input map string parsing ([#902](https://github.com/n24q02m/better-godot-mcp/pull/902),
+  [`2102425`](https://github.com/n24q02m/better-godot-mcp/commit/2102425cdf54933635b23e7f83f0a867abe38835))
+
+- **resources**: Replace String.match with RegExp.exec
+  ([#906](https://github.com/n24q02m/better-godot-mcp/pull/906),
+  [`59df4f5`](https://github.com/n24q02m/better-godot-mcp/commit/59df4f57b574929bbb410f7712bc88745c0861d7))
+
+
 ## v1.19.0-beta.1 (2026-06-18)
 
 ### Bug Fixes
