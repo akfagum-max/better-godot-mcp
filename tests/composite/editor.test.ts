@@ -67,6 +67,15 @@ describe('editor', () => {
 
       expect(result.content[0].text).toContain('Godot editor launched')
     })
+
+    it('should fallback to process.cwd() when config.projectPath is null', async () => {
+      config = makeConfig({ godotPath: '/usr/bin/godot', projectPath: null })
+
+      // To pass safeResolve(cwd, project_path), project_path must be inside cwd.
+      // Let's use "." as project_path, which is always inside cwd.
+      const result = await handleEditor('launch', { project_path: '.' }, config)
+      expect(result.content[0].text).toContain('Godot editor launched')
+    })
   })
 
   // ==========================================
@@ -102,6 +111,20 @@ describe('editor', () => {
       expect(typeof data.running).toBe('boolean')
     })
 
+    it('should skip invalid PIDs in activePids', async () => {
+      // @ts-expect-error - testing runtime security check for invalid types/values
+      config.activePids.push(-1)
+      // @ts-expect-error
+      config.activePids.push('invalid')
+      config.activePids.push(12345)
+
+      const result = await handleEditor('status', {}, config)
+      const data = JSON.parse(result.content[0].text)
+
+      expect(data.processes.length).toBe(1)
+      expect(data.processes[0].pid).toBe('12345')
+    })
+
     it('should show not detected when godotPath is null', async () => {
       config = makeConfig()
       const result = await handleEditor('status', {}, config)
@@ -117,6 +140,19 @@ describe('editor', () => {
 
       // In CI/test environment, no Godot processes should be running
       expect(data.running).toBe(false)
+    })
+
+    it('should handle process.kill throwing an error (dead process)', async () => {
+      config.activePids.push(99999)
+      processKillSpy.mockImplementation((pid) => {
+        if (pid === 99999) throw new Error('ESRCH')
+        return true
+      })
+
+      const result = await handleEditor('status', {}, config)
+      const data = JSON.parse(result.content[0].text)
+
+      expect(data.processes.find((p: { pid: string }) => p.pid === '99999')).toBeUndefined()
     })
   })
 
