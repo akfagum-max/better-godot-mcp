@@ -2,6 +2,67 @@
 
 <!-- version list -->
 
+## v1.19.0-beta.3 (2026-06-29)
+
+### Bug Fixes
+
+- Add real install section and remove stale churn notes from README
+  ([#907](https://github.com/n24q02m/better-godot-mcp/pull/907),
+  [`f9657cf`](https://github.com/n24q02m/better-godot-mcp/commit/f9657cfcae14d573d4b93884b0d54f2afafd14df))
+
+- Block prototype-chain injection in action dispatchers
+  ([`66f490e`](https://github.com/n24q02m/better-godot-mcp/commit/66f490e3027ea50d3c89b12be428f2379818aae7))
+
+- Cover countSubstring literal matching
+  ([`35d26d5`](https://github.com/n24q02m/better-godot-mcp/commit/35d26d5d338e041051ecad04f5b8514b861f9ea2))
+
+- Cover editor handler edge cases
+  ([`38e274c`](https://github.com/n24q02m/better-godot-mcp/commit/38e274c8c42f8a892f4ebc86c884f9e749f09ca3))
+
+- Cover getSetting array-bounds paths
+  ([`a128745`](https://github.com/n24q02m/better-godot-mcp/commit/a1287454929ca8b2d123ef8388be04730a6fd92a))
+
+- Cover logger DEBUG/NODE_ENV branches
+  ([`a5a52fb`](https://github.com/n24q02m/better-godot-mcp/commit/a5a52fb8484cd6b2cfcf09c47e1bc9cd20fb8b30))
+
+- Cover serializeGodotObject/toGodotValue fallbacks
+  ([`668d030`](https://github.com/n24q02m/better-godot-mcp/commit/668d0303c15d1cf33ab1130d7db61f8d0bd5036f))
+
+- Extract fastTrimRange helper across parsers
+  ([`d227bca`](https://github.com/n24q02m/better-godot-mcp/commit/d227bca5361d999bbd04c55dcb7db1f576dfc402))
+
+- Guard editor launch against CLI flag injection in project path
+  ([`1864612`](https://github.com/n24q02m/better-godot-mcp/commit/18646125c23182920d5890e79a3e1648f349a1f6))
+
+- Remove redundant pathExists checks (EAFP) in nodes
+  ([`463285d`](https://github.com/n24q02m/better-godot-mcp/commit/463285df74cab0adaee96dd810830eacda5f26b2))
+
+- **editor**: Add tests for missing coverage in editor.ts
+  ([`38e274c`](https://github.com/n24q02m/better-godot-mcp/commit/38e274c8c42f8a892f4ebc86c884f9e749f09ca3))
+
+### Chores
+
+- **deps**: Lock file maintenance ([#910](https://github.com/n24q02m/better-godot-mcp/pull/910),
+  [`8718830`](https://github.com/n24q02m/better-godot-mcp/commit/8718830ed10a3137749195356645cd63d0c3418c))
+
+- **deps**: Lock file maintenance ([#908](https://github.com/n24q02m/better-godot-mcp/pull/908),
+  [`a672568`](https://github.com/n24q02m/better-godot-mcp/commit/a672568eb9b837fc6efe517a97de8b27d023e3fe))
+
+- **deps**: Update dawidd6/action-send-mail action to v18
+  ([#942](https://github.com/n24q02m/better-godot-mcp/pull/942),
+  [`b66042a`](https://github.com/n24q02m/better-godot-mcp/commit/b66042ab937f18b1ff9d1e578e7f0c69160bd8e0))
+
+- **deps**: Update non-major dependencies
+  ([#937](https://github.com/n24q02m/better-godot-mcp/pull/937),
+  [`bede5ce`](https://github.com/n24q02m/better-godot-mcp/commit/bede5ceea227b0a0d1b581772bafed9cc24c7ea4))
+
+### Performance Improvements
+
+- **animation**: Use scene parser instead of matchAll
+  ([#909](https://github.com/n24q02m/better-godot-mcp/pull/909),
+  [`e7126be`](https://github.com/n24q02m/better-godot-mcp/commit/e7126bea05d8071154be2f9b979dfbcdec371c8c))
+
+
 ## v1.19.0-beta.2 (2026-06-21)
 
 ### Chores
