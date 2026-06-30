@@ -2,6 +2,32 @@
 
 <!-- version list -->
 
+## v1.19.0-beta.4 (2026-06-30)
+
+### Bug Fixes
+
+- Add tests for untested function: wrapToolResult<T extends { content
+  ([`dc1121b`](https://github.com/n24q02m/better-godot-mcp/commit/dc1121bf8044c855b49a9ebfdada041f6d4fc68c))
+
+- Dispatch handleConfig via Object.hasOwn map (prototype-pollution safe)
+  ([`f5325fa`](https://github.com/n24q02m/better-godot-mcp/commit/f5325facd6a128bb2c8f28dd28892ed16c28fc1e))
+
+- Guard tool registry lookup against prototype pollution (Object.hasOwn)
+  ([`a1d727a`](https://github.com/n24q02m/better-godot-mcp/commit/a1d727a2c3d077cd25e86180fe2ac271666aceec))
+
+- Lock file maintenance
+  ([`5d79d2b`](https://github.com/n24q02m/better-godot-mcp/commit/5d79d2b4e56b8bb1a88a45f6ccd2bf60a8d54a1a))
+
+- Missing test file for logger.ts
+  ([`1a0a376`](https://github.com/n24q02m/better-godot-mcp/commit/1a0a3762e8bb258d7164369ee834b10e7f8efac0))
+
+- Missing test file for stdio.ts
+  ([`ad2098a`](https://github.com/n24q02m/better-godot-mcp/commit/ad2098a7be53cf8ee0fece9e505264a557d10077))
+
+- Remove redundant pathExists in scripts tool
+  ([`cf77f19`](https://github.com/n24q02m/better-godot-mcp/commit/cf77f1943a98347ac9fc385d57dd80c0c1a42005))
+
+
 ## v1.19.0-beta.3 (2026-06-29)
 
 ### Bug Fixes
