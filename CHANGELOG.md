@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.19.0 (2026-07-01)
+
+### Chores
+
+- **deps**: Lock file maintenance ([#967](https://github.com/n24q02m/better-godot-mcp/pull/967),
+  [`7575b0a`](https://github.com/n24q02m/better-godot-mcp/commit/7575b0a50588b92b5a4bac870aa317d9bb07294f))
+
+
 ## v1.19.0-beta.4 (2026-06-30)
 
 ### Bug Fixes
