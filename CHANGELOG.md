@@ -2,6 +2,44 @@
 
 <!-- version list -->
 
+## v1.19.1-beta.1 (2026-07-05)
+
+### Bug Fixes
+
+- Index scene nodes by type for O(1) type lookup
+  ([`5b8da68`](https://github.com/n24q02m/better-godot-mcp/commit/5b8da68e853a1b78515c645e5d1fa53dc4f37d59))
+
+- Preallocate arrays in scenes info handler
+  ([`b97960e`](https://github.com/n24q02m/better-godot-mcp/commit/b97960ec1dc04c1b26c0eb701d4684b10c82a7b9))
+
+- Remove duplicate resources key in scenes info handler
+  ([`3a50a9c`](https://github.com/n24q02m/better-godot-mcp/commit/3a50a9c9f3782d0ea3b1643b577ab34e238d72e8))
+
+- Validate numeric parameters to prevent file injection in godot handlers
+  ([`39ab5b2`](https://github.com/n24q02m/better-godot-mcp/commit/39ab5b20ee8249c1f91231208e74fefce61efa1e))
+
+- **deps**: Lock file maintenance
+  ([`3b83574`](https://github.com/n24q02m/better-godot-mcp/commit/3b83574ff4e2641e59a5a2249b46cc36fb69f2e7))
+
+- **deps**: Update non-major dependencies
+  ([#973](https://github.com/n24q02m/better-godot-mcp/pull/973),
+  [`f97233e`](https://github.com/n24q02m/better-godot-mcp/commit/f97233e399aecc0030b2d202e29665fe1241f5f3))
+
+### Chores
+
+- **deps**: Update docker/build-push-action digest to 53b7df9
+  ([#970](https://github.com/n24q02m/better-godot-mcp/pull/970),
+  [`25a3411`](https://github.com/n24q02m/better-godot-mcp/commit/25a3411fa3b82974889f325ae8c483cc41954048))
+
+- **deps**: Update docker/login-action digest to af1e73f
+  ([#971](https://github.com/n24q02m/better-godot-mcp/pull/971),
+  [`acb6d03`](https://github.com/n24q02m/better-godot-mcp/commit/acb6d03fc6c85987e281440e5f569ffe0940e602))
+
+- **deps**: Update docker/setup-buildx-action digest to bb05f3f
+  ([#972](https://github.com/n24q02m/better-godot-mcp/pull/972),
+  [`060847a`](https://github.com/n24q02m/better-godot-mcp/commit/060847a75dde82357073624b70f5aa7f59355522))
+
+
 ## v1.19.0 (2026-07-01)
 
 ### Chores
