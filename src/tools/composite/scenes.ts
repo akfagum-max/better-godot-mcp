@@ -183,7 +183,6 @@ export async function handleScenes(action: string, args: Record<string, unknown>
         nodeCount: scene.nodes.length,
         nodes,
         resources,
-        resources: scene.extResources.map((r) => `[ext_resource type="${r.type}" path="${r.path}" id="${r.id}"]`),
       }
       return formatJSON(info)
     }
