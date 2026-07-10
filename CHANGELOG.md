@@ -2,6 +2,29 @@
 
 <!-- version list -->
 
+## v1.20.0-beta.1 (2026-07-10)
+
+### Bug Fixes
+
+- Fail the release when the computed version already exists on npm
+  ([#988](https://github.com/n24q02m/better-godot-mcp/pull/988),
+  [`330e1f7`](https://github.com/n24q02m/better-godot-mcp/commit/330e1f734c96c53b8f52ea4573e7d5aa1e2464dc))
+
+### Features
+
+- Add opencode github agent (responds to /oc)
+  ([`504597f`](https://github.com/n24q02m/better-godot-mcp/commit/504597f48a0eba1f720913f6813948335a319f9a))
+
+- Add review-learnings store the automated reviewer must obey
+  ([`bb4a9fb`](https://github.com/n24q02m/better-godot-mcp/commit/bb4a9fba4a192e51a53a98ec25d619190542baaa))
+
+- Auto-respond only to issues and PRs opened by outside people
+  ([`6dd71db`](https://github.com/n24q02m/better-godot-mcp/commit/6dd71db204c1d5f14cf72276cc86d342ba916550))
+
+- Reviewer must obey .github/review-learnings.md
+  ([`ba61955`](https://github.com/n24q02m/better-godot-mcp/commit/ba619551706a1da234af4aeeb3071578abccfbb9))
+
+
 ## v1.19.1 (2026-07-05)
 
 
