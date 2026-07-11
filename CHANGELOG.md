@@ -2,6 +2,53 @@
 
 <!-- version list -->
 
+## v1.20.0-beta.2 (2026-07-11)
+
+### Bug Fixes
+
+- Add explicit node types to tsconfig for TypeScript 7 compat
+  ([#994](https://github.com/n24q02m/better-godot-mcp/pull/994),
+  [`ff21402`](https://github.com/n24q02m/better-godot-mcp/commit/ff21402996fcab28dd43266ff3e1d25796ceb23e))
+
+- Bump @n24q02m/mcp-core to 1.18.2 ([#990](https://github.com/n24q02m/better-godot-mcp/pull/990),
+  [`6af8f0c`](https://github.com/n24q02m/better-godot-mcp/commit/6af8f0c72e6063b03a6ad30fb759ec7be81f5070))
+
+- Enforce fix(deps) semantic commit prefix in renovate config
+  ([`b14f89c`](https://github.com/n24q02m/better-godot-mcp/commit/b14f89cc0a4e614891bacd5d94575918eb27e0bd))
+
+- Make renovate automerge effective (isolated groups, digest+lockfile automerge, 7-day cooldown)
+  ([`1877860`](https://github.com/n24q02m/better-godot-mcp/commit/1877860de0dd12a0464ac2fb602b7ceb8bb5e19e))
+
+- Optimize node and control listing in composite tools
+  ([`ead3558`](https://github.com/n24q02m/better-godot-mcp/commit/ead3558006224524fb26fe7fc5bae0ed92ffd7c2))
+
+- Use atomic exclusive writes in scenes tool to avoid TOCTOU
+  ([`17bd66a`](https://github.com/n24q02m/better-godot-mcp/commit/17bd66a89bdc27dbb68b305b5045c40bb2f5ca5b))
+
+- **deps**: Update dependency typescript to v7
+  ([`30294fc`](https://github.com/n24q02m/better-godot-mcp/commit/30294fc3e49c4e3c6a2a31681ad4db99281a82c3))
+
+### Chores
+
+- **deps**: Lock file maintenance ([#983](https://github.com/n24q02m/better-godot-mcp/pull/983),
+  [`99e84bb`](https://github.com/n24q02m/better-godot-mcp/commit/99e84bb3945dc08d593acc56f7c364d4a7a5a1e3))
+
+- **deps**: Update actions/checkout action to v7
+  ([#992](https://github.com/n24q02m/better-godot-mcp/pull/992),
+  [`27385b4`](https://github.com/n24q02m/better-godot-mcp/commit/27385b4fb85b4fc47e09f64aeb50f5e00992c54d))
+
+### Features
+
+- Add detect and doctor cli subcommands
+  ([#996](https://github.com/n24q02m/better-godot-mcp/pull/996),
+  [`fbc0ba0`](https://github.com/n24q02m/better-godot-mcp/commit/fbc0ba0c7713a751bee4a024031207679dc2a483))
+
+### Refactoring
+
+- **scenes**: Optimize pathExists checks in scenes composite tool
+  ([`17bd66a`](https://github.com/n24q02m/better-godot-mcp/commit/17bd66a89bdc27dbb68b305b5045c40bb2f5ca5b))
+
+
 ## v1.20.0-beta.1 (2026-07-10)
 
 ### Bug Fixes
