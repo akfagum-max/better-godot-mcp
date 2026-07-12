@@ -2,6 +2,20 @@
 
 <!-- version list -->
 
+## v1.20.0-beta.3 (2026-07-12)
+
+### Bug Fixes
+
+- **deps**: Lock file maintenance ([#997](https://github.com/n24q02m/better-godot-mcp/pull/997),
+  [`5c11987`](https://github.com/n24q02m/better-godot-mcp/commit/5c119876f964436f358a71bf5a5aac56ef99ca3c))
+
+### Features
+
+- Declare output schemas and emit structured content
+  ([#999](https://github.com/n24q02m/better-godot-mcp/pull/999),
+  [`2277a63`](https://github.com/n24q02m/better-godot-mcp/commit/2277a63b94d174125168ed755be70d2fc5552fe4))
+
+
 ## v1.20.0-beta.2 (2026-07-11)
 
 ### Bug Fixes
