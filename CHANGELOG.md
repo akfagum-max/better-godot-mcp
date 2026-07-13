@@ -2,6 +2,42 @@
 
 <!-- version list -->
 
+## v1.20.0-beta.4 (2026-07-13)
+
+### Bug Fixes
+
+- Address T1 code review findings (logs fallback, docs, tree-kill, pid lifecycle)
+  ([#1005](https://github.com/n24q02m/better-godot-mcp/pull/1005),
+  [`5bfbe87`](https://github.com/n24q02m/better-godot-mcp/commit/5bfbe8751c674e03cedf41dc60ffd82b8382d126))
+
+- Capture project run output and stop leaking the process
+  ([#1005](https://github.com/n24q02m/better-godot-mcp/pull/1005),
+  [`5bfbe87`](https://github.com/n24q02m/better-godot-mcp/commit/5bfbe8751c674e03cedf41dc60ffd82b8382d126))
+
+- Capture project run output, add project logs, and stop leaking the process
+  ([#1005](https://github.com/n24q02m/better-godot-mcp/pull/1005),
+  [`5bfbe87`](https://github.com/n24q02m/better-godot-mcp/commit/5bfbe8751c674e03cedf41dc60ffd82b8382d126))
+
+- Correct mention gate expression (balanced parens + precedence)
+  ([#1004](https://github.com/n24q02m/better-godot-mcp/pull/1004),
+  [`80804fc`](https://github.com/n24q02m/better-godot-mcp/commit/80804fcfb49b0436c1c6e9d98e3d60dc88d4774d))
+
+- Dedup stale exited-pid entry on PID reuse to prevent log loss
+  ([#1005](https://github.com/n24q02m/better-godot-mcp/pull/1005),
+  [`5bfbe87`](https://github.com/n24q02m/better-godot-mcp/commit/5bfbe8751c674e03cedf41dc60ffd82b8382d126))
+
+- Gate oc mention job on comment author write access
+  ([#1004](https://github.com/n24q02m/better-godot-mcp/pull/1004),
+  [`80804fc`](https://github.com/n24q02m/better-godot-mcp/commit/80804fcfb49b0436c1c6e9d98e3d60dc88d4774d))
+
+- Run opencode bot on hosted runners
+  ([#1003](https://github.com/n24q02m/better-godot-mcp/pull/1003),
+  [`5748e99`](https://github.com/n24q02m/better-godot-mcp/commit/5748e99406c8fe7ef6a1ac1622def574ba03c2a5))
+
+- **deps**: Lock file maintenance ([#1000](https://github.com/n24q02m/better-godot-mcp/pull/1000),
+  [`8a90fca`](https://github.com/n24q02m/better-godot-mcp/commit/8a90fca5df8e3624751005c0319195067c872995))
+
+
 ## v1.20.0-beta.3 (2026-07-12)
 
 ### Bug Fixes
