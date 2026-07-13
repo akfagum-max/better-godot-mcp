@@ -40,6 +40,11 @@ vi.mock('../src/godot/detector.js', () => ({
   detectGodot: vi.fn(),
 }))
 
+vi.mock('../src/godot/headless.js', () => ({
+  getTrackedPids: vi.fn().mockReturnValue([]),
+  killProcessTree: vi.fn().mockReturnValue(false),
+}))
+
 vi.mock('../src/tools/registry.js', () => ({
   registerTools: vi.fn(),
 }))
@@ -210,6 +215,44 @@ describe('initServer', () => {
           },
         },
       )
+    })
+  })
+
+  describe('HTTP shutdown process cleanup', () => {
+    it('tree-kills tracked Godot pids before closing the HTTP handle on SIGINT', async () => {
+      const { detectGodot } = await import('../src/godot/detector.js')
+      vi.mocked(detectGodot).mockReturnValue(null)
+      process.env.MCP_TRANSPORT = 'http'
+
+      const { getTrackedPids, killProcessTree } = await import('../src/godot/headless.js')
+      vi.mocked(getTrackedPids).mockReturnValue([111, 222])
+      vi.mocked(killProcessTree).mockReturnValue(true)
+
+      const { initServer } = await import('../src/init-server.js')
+      await runHttpInit(initServer)
+
+      expect(killProcessTree).toHaveBeenCalledWith(111)
+      expect(killProcessTree).toHaveBeenCalledWith(222)
+    })
+
+    it('closes the HTTP handle even if killProcessTree throws unexpectedly', async () => {
+      const { detectGodot } = await import('../src/godot/detector.js')
+      vi.mocked(detectGodot).mockReturnValue(null)
+      process.env.MCP_TRANSPORT = 'http'
+
+      const { getTrackedPids, killProcessTree } = await import('../src/godot/headless.js')
+      vi.mocked(getTrackedPids).mockReturnValue([333])
+      vi.mocked(killProcessTree).mockImplementation(() => {
+        throw new Error('unexpected')
+      })
+
+      const closeSpy = vi.fn().mockResolvedValue(undefined)
+      mockStartHttp.mockResolvedValue({ host: '127.0.0.1', port: 12345, close: closeSpy })
+
+      const { initServer } = await import('../src/init-server.js')
+      await expect(runHttpInit(initServer)).resolves.not.toThrow()
+
+      expect(closeSpy).toHaveBeenCalledOnce()
     })
   })
 

@@ -2,12 +2,12 @@
  * Tests for Project tool
  */
 
-import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { GodotConfig } from '../../src/godot/types.js'
 import { handleProject } from '../../src/tools/composite/project.js'
+import type { GodotMCPError } from '../../src/tools/helpers/errors.js'
 import { createTmpProject, makeConfig } from '../fixtures.js'
 
 // Mock headless execution
@@ -15,14 +15,18 @@ vi.mock('../../src/godot/headless.js', () => ({
   execGodotAsync: vi.fn().mockResolvedValue({ success: true, stdout: '', stderr: '', exitCode: 0 }),
   execGodotSync: vi.fn(),
   runGodotProject: vi.fn(),
+  getProjectLogs: vi.fn(),
+  clearProjectLogs: vi.fn(),
+  killProcessTree: vi.fn(),
 }))
 
-// Mock child_process for stop command
-vi.mock('node:child_process', () => ({
-  execFileSync: vi.fn(),
-}))
-
-import { execGodotAsync, runGodotProject } from '../../src/godot/headless.js'
+import {
+  clearProjectLogs,
+  execGodotAsync,
+  getProjectLogs,
+  killProcessTree,
+  runGodotProject,
+} from '../../src/godot/headless.js'
 
 describe('project', () => {
   let projectPath: string
@@ -122,6 +126,13 @@ describe('project', () => {
       const noProjectConfig = makeConfig({ godotPath: '/usr/bin/godot' })
       await expect(handleProject('run', {}, noProjectConfig)).rejects.toThrow('No project path specified')
     })
+
+    it('should include a hint to use logs/stop after starting', async () => {
+      vi.mocked(runGodotProject).mockReturnValue({ pid: 12345 })
+
+      const result = await handleProject('run', { project_path: projectPath }, config)
+      expect(result.content[0].text).toContain('Use project logs to see output, project stop to terminate.')
+    })
   })
 
   // ==========================================
@@ -130,49 +141,101 @@ describe('project', () => {
   describe('stop', () => {
     it('should stop godot processes', async () => {
       config.activePids = [1234]
-      const processKillSpy = vi.spyOn(process, 'kill').mockImplementation(() => true)
+      vi.mocked(killProcessTree).mockReturnValue(true)
 
       const result = await handleProject('stop', {}, config)
-      expect(result.content[0].text).toContain('Godot processes stopped')
-      if (process.platform === 'win32') {
-        expect(execFileSync).toHaveBeenCalled()
-      } else {
-        expect(processKillSpy).toHaveBeenCalledWith(1234, 'SIGTERM')
-      }
+      expect(result.content[0].text).toContain('Godot processes stopped (Stopped 1 tracked processes)')
+      expect(killProcessTree).toHaveBeenCalledWith(1234)
       expect(config.activePids).toHaveLength(0)
+    })
 
-      processKillSpy.mockRestore()
+    it('should clear ring-buffered logs for every tracked pid', async () => {
+      config.activePids = [1234, 5678]
+      vi.mocked(killProcessTree).mockReturnValue(true)
+
+      await handleProject('stop', {}, config)
+
+      expect(clearProjectLogs).toHaveBeenCalledWith(1234)
+      expect(clearProjectLogs).toHaveBeenCalledWith(5678)
     })
 
     it('should handle no running processes gracefully', async () => {
       const result = await handleProject('stop', {}, config)
       expect(result.content[0].text).toContain('No running Godot processes found (tracked by this server)')
+      expect(clearProjectLogs).not.toHaveBeenCalled()
+      expect(killProcessTree).not.toHaveBeenCalled()
     })
 
-    it('should continue if process is already dead on win32', async () => {
-      const originalPlatform = process.platform
-      Object.defineProperty(process, 'platform', { value: 'win32', configurable: true })
-
+    it('should not count an already-dead pid toward stoppedCount, but should still count a live one', async () => {
       config.activePids = [1234, 5678]
-
-      const processKillSpy = vi.spyOn(process, 'kill').mockImplementation((pid, signal) => {
-        if (pid === 1234 && (signal === 0 || signal === '0')) {
-          throw new Error('Process already dead')
-        }
-        return true
-      })
+      // killProcessTree itself owns the platform-specific (win32 tree-kill vs SIGTERM) and
+      // already-dead detection -- see headless.test.ts for that behavior. Here we only need
+      // to prove `stop` sums its per-pid boolean return correctly.
+      vi.mocked(killProcessTree).mockImplementation((pid) => pid !== 1234)
 
       const result = await handleProject('stop', {}, config)
       expect(result.content[0].text).toContain('Stopped 1 tracked processes')
-
-      // Should NOT call taskkill for 1234, but SHOULD for 5678
-      expect(execFileSync).not.toHaveBeenCalledWith('taskkill', expect.arrayContaining(['1234']), expect.anything())
-      expect(execFileSync).toHaveBeenCalledWith('taskkill', expect.arrayContaining(['5678']), expect.anything())
-
+      expect(killProcessTree).toHaveBeenCalledWith(1234)
+      expect(killProcessTree).toHaveBeenCalledWith(5678)
       expect(config.activePids).toHaveLength(0)
+    })
 
-      processKillSpy.mockRestore()
-      Object.defineProperty(process, 'platform', { value: originalPlatform })
+    it('should skip invalid pids without calling killProcessTree', async () => {
+      config.activePids = [-1, 1.5, 5678]
+      vi.mocked(killProcessTree).mockReturnValue(true)
+
+      await handleProject('stop', {}, config)
+
+      expect(killProcessTree).not.toHaveBeenCalledWith(-1)
+      expect(killProcessTree).not.toHaveBeenCalledWith(1.5)
+      expect(killProcessTree).toHaveBeenCalledWith(5678)
+    })
+  })
+
+  // ==========================================
+  // logs
+  // ==========================================
+  describe('logs', () => {
+    it('should throw when no project has been started', async () => {
+      await expect(handleProject('logs', {}, config)).rejects.toThrow('No running project')
+    })
+
+    it('should throw for an explicit pid that was never tracked', async () => {
+      vi.mocked(getProjectLogs).mockReturnValue(undefined)
+      await expect(handleProject('logs', { pid: 999 }, config)).rejects.toThrow('No logs for PID 999')
+    })
+
+    it('should throw for a non-positive-integer pid', async () => {
+      await expect(handleProject('logs', { pid: -1 }, config)).rejects.toThrow('Invalid PID')
+      await expect(handleProject('logs', { pid: 'nope' }, config)).rejects.toThrow('Invalid PID')
+    })
+
+    it('should default to the most recently started pid when none is given', async () => {
+      config.activePids = [111, 222]
+      vi.mocked(getProjectLogs).mockReturnValue({ lines: ['hello'], truncated: false })
+
+      const result = await handleProject('logs', {}, config)
+
+      expect(getProjectLogs).toHaveBeenCalledWith(222)
+      expect(result.content[0].text).toContain('hello')
+    })
+
+    it('should return the ring-buffered lines for an explicit pid', async () => {
+      vi.mocked(getProjectLogs).mockReturnValue({ lines: ['line1', 'line2'], truncated: false })
+
+      const result = await handleProject('logs', { pid: 42 }, config)
+
+      expect(getProjectLogs).toHaveBeenCalledWith(42)
+      expect(result.content[0].text).toContain('Last 2 line(s):')
+      expect(result.content[0].text).toContain('line1\nline2')
+    })
+
+    it('should note when older lines were dropped due to truncation', async () => {
+      vi.mocked(getProjectLogs).mockReturnValue({ lines: Array(400).fill('x'), truncated: true })
+
+      const result = await handleProject('logs', { pid: 42 }, config)
+
+      expect(result.content[0].text).toContain('Last 400 line(s) (older lines dropped):')
     })
   })
 
@@ -329,5 +392,19 @@ describe('project', () => {
   // ==========================================
   it('should throw for unknown action', async () => {
     await expect(handleProject('invalid', {}, config)).rejects.toThrow('Unknown action')
+  })
+
+  it('should list every real action, including logs, as a suggestion for an unknown action', async () => {
+    const realActions = ['info', 'version', 'run', 'logs', 'stop', 'settings_get', 'settings_set', 'export']
+
+    try {
+      await handleProject('invalid', {}, config)
+      throw new Error('expected handleProject to reject')
+    } catch (err) {
+      const suggestion = (err as GodotMCPError).suggestion ?? ''
+      for (const action of realActions) {
+        expect(suggestion).toContain(action)
+      }
+    }
   })
 })
