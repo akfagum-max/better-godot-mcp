@@ -2,6 +2,24 @@
 
 <!-- version list -->
 
+## v1.20.0 (2026-07-14)
+
+### Bug Fixes
+
+- **deps**: Lock file maintenance ([#1007](https://github.com/n24q02m/better-godot-mcp/pull/1007),
+  [`b1e8553`](https://github.com/n24q02m/better-godot-mcp/commit/b1e8553a0180840ffc39ee8a18c05d76297f4e46))
+
+- **deps**: Update patch dependencies to ^4.1.10
+  ([#1006](https://github.com/n24q02m/better-godot-mcp/pull/1006),
+  [`04525f8`](https://github.com/n24q02m/better-godot-mcp/commit/04525f8e4db4513e1e6c2e8a9a53fc35f44ea425))
+
+### Features
+
+- Add smithery.yaml for stdio deployment
+  ([#1009](https://github.com/n24q02m/better-godot-mcp/pull/1009),
+  [`a8719cb`](https://github.com/n24q02m/better-godot-mcp/commit/a8719cbc24921187ea4c6c90f5ec40d922a082ed))
+
+
 ## v1.20.0-beta.4 (2026-07-13)
 
 ### Bug Fixes
