@@ -2,6 +2,61 @@
 
 <!-- version list -->
 
+## v1.21.0-beta.1 (2026-07-18)
+
+### Bug Fixes
+
+- Add orphan-tag integrity guard to release CI
+  ([#1021](https://github.com/n24q02m/better-godot-mcp/pull/1021),
+  [`bc8f421`](https://github.com/n24q02m/better-godot-mcp/commit/bc8f421c1e419ccb2b89af94d526f08d05914fac))
+
+- Adopt better-semantic-release for built-in release guards
+  ([`b047d3d`](https://github.com/n24q02m/better-godot-mcp/commit/b047d3d3a75f79818f47c52303da268a3140aa37))
+
+- Bump mcp-core floor to 1.19.0 stable
+  ([#1017](https://github.com/n24q02m/better-godot-mcp/pull/1017),
+  [`56c80a3`](https://github.com/n24q02m/better-godot-mcp/commit/56c80a31b5ae5ffc447b8342468c24d844e058f8))
+
+- Optimize Godot array parsing
+  ([`dfe87fb`](https://github.com/n24q02m/better-godot-mcp/commit/dfe87fb82402422e040abf122570797d2b743b19))
+
+- Pin rangeStrategy on delayed packageRules to fix renovate artifacts failure
+  ([#1022](https://github.com/n24q02m/better-godot-mcp/pull/1022),
+  [`a19ec7e`](https://github.com/n24q02m/better-godot-mcp/commit/a19ec7e7d5fb9aa01a1cfd073f30c596cbe8939d))
+
+- Pre-compile RegExps and use .exec() in hot paths
+  ([`9022346`](https://github.com/n24q02m/better-godot-mcp/commit/90223468eb20dc3c496a3b27ea2aee4ff7e0d2dd))
+
+- **deps**: Lock file maintenance ([#1019](https://github.com/n24q02m/better-godot-mcp/pull/1019),
+  [`5e8e560`](https://github.com/n24q02m/better-godot-mcp/commit/5e8e56039bf5450459027378b2c7aaae3c922d2b))
+
+- **deps**: Lock file maintenance ([#1013](https://github.com/n24q02m/better-godot-mcp/pull/1013),
+  [`8017e97`](https://github.com/n24q02m/better-godot-mcp/commit/8017e979f8abc98102fb1b6df2fad09db3911380))
+
+- **deps**: Update patch dependencies
+  ([#1018](https://github.com/n24q02m/better-godot-mcp/pull/1018),
+  [`c07ec99`](https://github.com/n24q02m/better-godot-mcp/commit/c07ec998a70ff8fe2d5f4984de51590988090187))
+
+### Features
+
+- Add PR-title conventional-commit gate + no-bump release warning
+  ([#1024](https://github.com/n24q02m/better-godot-mcp/pull/1024),
+  [`c761ffb`](https://github.com/n24q02m/better-godot-mcp/commit/c761ffb2d1e3bfc70dd6ab65b57846d62ff420cb))
+
+- Document CLI and smithery in README
+  ([#1015](https://github.com/n24q02m/better-godot-mcp/pull/1015),
+  [`d847636`](https://github.com/n24q02m/better-godot-mcp/commit/d847636fbfb613c8eb4c6da99d128aa7f9f77560))
+
+- Wire core buildCli for doctor/config/relay/--version
+  ([#1025](https://github.com/n24q02m/better-godot-mcp/pull/1025),
+  [`3a68da6`](https://github.com/n24q02m/better-godot-mcp/commit/3a68da6f45ab9cb6a7ecdd3c3dc90e7b0ff2f94a))
+
+### Performance Improvements
+
+- **parser**: Pre-compile RegExps and use .exec() in hot paths
+  ([`9022346`](https://github.com/n24q02m/better-godot-mcp/commit/90223468eb20dc3c496a3b27ea2aee4ff7e0d2dd))
+
+
 ## v1.20.0 (2026-07-14)
 
 ### Bug Fixes
