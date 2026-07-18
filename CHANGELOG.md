@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.21.0 (2026-07-18)
+
+### Bug Fixes
+
+- Bump mcp-core to 1.20.0 ([#1027](https://github.com/n24q02m/better-godot-mcp/pull/1027),
+  [`cab5f36`](https://github.com/n24q02m/better-godot-mcp/commit/cab5f36ff66d8ec8de1375e7fe8f2e077bd2e8de))
+
+
 ## v1.21.0-beta.1 (2026-07-18)
 
 ### Bug Fixes
