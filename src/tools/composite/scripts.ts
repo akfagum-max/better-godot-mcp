@@ -9,6 +9,7 @@ import type { GodotConfig } from '../../godot/types.js'
 import { formatJSON, formatSuccess, GodotMCPError, throwUnknownAction } from '../helpers/errors.js'
 import { safeResolve } from '../helpers/paths.js'
 import { parseSceneContent, updateNodeInScene } from '../helpers/scene-parser.js'
+import { validateStringArguments } from '../helpers/security.js'
 
 const SCRIPT_TEMPLATES: Record<string, string> = {
   Node: `extends Node
@@ -95,7 +96,9 @@ func _ready() -> void:
 }
 
 function getTemplate(extendsType: string): string {
-  return SCRIPT_TEMPLATES[extendsType] || `extends ${extendsType}\n\n\nfunc _ready() -> void:\n\tpass\n`
+  return Object.hasOwn(SCRIPT_TEMPLATES, extendsType)
+    ? SCRIPT_TEMPLATES[extendsType]
+    : `extends ${extendsType}\n\n\nfunc _ready() -> void:\n\tpass\n`
 }
 
 async function findScriptFiles(dir: string, results: string[] = []): Promise<string[]> {
@@ -130,8 +133,11 @@ async function createScript(args: Record<string, unknown>, resolvePath: (path: s
   const scriptPath = args.script_path as string
   if (!scriptPath)
     throw new GodotMCPError('No script_path specified', 'INVALID_ARGS', 'Provide script_path (e.g., "player.gd").')
-  const extendsType = (args.extends as string) || 'Node'
-  const content = (args.content as string) || getTemplate(extendsType)
+  const rawExtendsType = args.extends
+  const rawContent = args.content
+  validateStringArguments(undefined, scriptPath, rawExtendsType, rawContent)
+  const extendsType = (rawExtendsType ?? 'Node') as string
+  const content = (rawContent ?? getTemplate(extendsType)) as string
 
   const fullPath = resolvePath(scriptPath)
   await mkdir(dirname(fullPath), { recursive: true })
@@ -193,6 +199,8 @@ async function attachScript(args: Record<string, unknown>, resolvePath: (path: s
       'Provide scene_path and script_path.',
     )
   }
+  validateStringArguments('Invalid script path', scriptPath)
+  validateStringArguments('Invalid node name', nodeName)
 
   if (scriptPath.includes('\n') || scriptPath.includes('\r') || scriptPath.includes('"')) {
     throw new GodotMCPError(
@@ -285,8 +293,12 @@ async function deleteScript(args: Record<string, unknown>, resolvePath: (path: s
 
 export async function handleScripts(action: string, args: Record<string, unknown>, config: GodotConfig) {
   const baseDir = config.projectPath || process.cwd()
+  validateStringArguments(undefined, args.project_path)
   // Validate args.project_path against the trusted baseDir to prevent path traversal vulnerabilities
-  const projectPath = args.project_path ? safeResolve(baseDir, args.project_path as string) : config.projectPath
+  const projectPath =
+    args.project_path === undefined || args.project_path === null
+      ? config.projectPath
+      : safeResolve(baseDir, args.project_path as string)
 
   if (!projectPath && action !== 'list') {
     // List handles missing projectPath internally, but others need it for safeResolve base

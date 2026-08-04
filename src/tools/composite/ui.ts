@@ -9,6 +9,7 @@ import type { GodotConfig } from '../../godot/types.js'
 import { formatJSON, formatSuccess, GodotMCPError, throwUnknownAction } from '../helpers/errors.js'
 import { resolveProjectRoot, safeResolve } from '../helpers/paths.js'
 import { parseScene, updateNodeInScene } from '../helpers/scene-parser.js'
+import { validateStringArguments } from '../helpers/security.js'
 
 const CONTROL_TEMPLATES: Record<string, Record<string, string>> = {
   Button: { text: '"Click"' },
@@ -75,10 +76,13 @@ async function handleCreateControl(projectPath: string, args: Record<string, unk
   const scenePath = args.scene_path as string
   if (!scenePath) throw new GodotMCPError('No scene_path specified', 'INVALID_ARGS', 'Provide scene_path.')
   const controlName = args.name as string
-  const controlType = (args.type as string) || 'Control'
-  const parent = (args.parent as string) || '.'
+  const rawControlType = args.type
+  const rawParent = args.parent
 
   if (!controlName) throw new GodotMCPError('No name specified', 'INVALID_ARGS', 'Provide control node name.')
+  validateStringArguments('Invalid characters in parameters', controlName, rawControlType, rawParent)
+  const controlType = (rawControlType ?? 'Control') as string
+  const parent = (rawParent ?? '.') as string
 
   if (
     controlName.includes('"') ||
@@ -114,7 +118,7 @@ async function handleCreateControl(projectPath: string, args: Record<string, unk
   let nodeDecl = `\n[node name="${controlName}" type="${controlType}"${parentAttr}]\n`
 
   // Add default properties for known control types
-  const defaults = CONTROL_TEMPLATES[controlType]
+  const defaults = Object.hasOwn(CONTROL_TEMPLATES, controlType) ? CONTROL_TEMPLATES[controlType] : undefined
   if (defaults) {
     for (const [key, value] of Object.entries(defaults)) {
       nodeDecl += `${key} = ${value}\n`
@@ -155,13 +159,17 @@ async function handleSetTheme(projectPath: string, args: Record<string, unknown>
   if (!themePath)
     throw new GodotMCPError('No theme_path specified', 'INVALID_ARGS', 'Provide theme_path (e.g., "themes/main.tres").')
 
-  if (args.font_size !== undefined && typeof args.font_size !== 'number') {
+  if (
+    args.font_size !== undefined &&
+    args.font_size !== null &&
+    (typeof args.font_size !== 'number' || !Number.isFinite(args.font_size))
+  ) {
     throw new GodotMCPError('font_size must be a number', 'INVALID_ARGS')
   }
 
   const fullPath = safeResolve(projectPath || process.cwd(), themePath)
 
-  const fontSize = (args.font_size as number) || 16
+  const fontSize = (args.font_size ?? 16) as number
 
   const content = ['[gd_resource type="Theme" format=3]', '', '[resource]', `default_font_size = ${fontSize}`, ''].join(
     '\n',
@@ -178,7 +186,9 @@ async function handleLayout(projectPath: string, args: Record<string, unknown>) 
   if (!scenePath) throw new GodotMCPError('No scene_path specified', 'INVALID_ARGS', 'Provide scene_path.')
   const nodeName = args.name as string
   if (!nodeName) throw new GodotMCPError('No name specified', 'INVALID_ARGS', 'Provide node name.')
-  const preset = (args.preset as string) || 'full_rect'
+  const rawPreset = args.preset
+  validateStringArguments('Invalid characters in parameters', nodeName, rawPreset)
+  const preset = (rawPreset ?? 'full_rect') as string
 
   if (
     nodeName.includes('"') ||
@@ -307,6 +317,7 @@ async function handleListControls(projectPath: string, args: Record<string, unkn
 export async function handleUI(action: string, args: Record<string, unknown>, config: GodotConfig) {
   // project_path is caller-controlled and untrusted; confine it to the trusted
   // project root before any handler uses it as a file-resolution base.
+  validateStringArguments(undefined, args.project_path)
   const projectPath = resolveProjectRoot(args.project_path, config.projectPath)
 
   switch (action) {

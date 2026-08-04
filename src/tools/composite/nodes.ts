@@ -7,7 +7,6 @@ import { readFile, writeFile } from 'node:fs/promises'
 import type { GodotConfig } from '../../godot/types.js'
 import { formatJSON, formatSuccess, GodotMCPError, throwUnknownAction } from '../helpers/errors.js'
 import { safeResolve } from '../helpers/paths.js'
-
 import {
   getNodeProperty,
   parseSceneContent,
@@ -15,6 +14,7 @@ import {
   renameNodeInContent,
   setNodePropertyInContent,
 } from '../helpers/scene-parser.js'
+import { validateStringArguments } from '../helpers/security.js'
 
 // ⚡ Bolt: Pre-compile regular expressions to avoid recreation in hot paths
 const ROOT_PATH_REGEX = /^\/?root\/(.+)$/i
@@ -82,17 +82,22 @@ async function handleAddNode(projectPath: string, args: Record<string, unknown>)
   if (!scenePath) throw new GodotMCPError('No scene_path specified', 'INVALID_ARGS', 'Provide scene_path.')
   const nodeName = args.name as string
   if (!nodeName) throw new GodotMCPError('No node name specified', 'INVALID_ARGS', 'Provide name for the new node.')
+  validateStringArguments('Invalid node name', nodeName)
 
   if (nodeName.includes('"') || nodeName.includes('\n') || nodeName.includes('\r')) {
     throw new GodotMCPError('Invalid node name', 'INVALID_ARGS', 'Node name must not contain quotes or newlines.')
   }
 
-  const nodeType = (args.type as string) || 'Node'
+  const rawNodeType = args.type
+  validateStringArguments('Invalid node type', rawNodeType)
+  const nodeType = (rawNodeType as string | null | undefined) ?? 'Node'
   if (nodeType.includes('"') || nodeType.includes('\n') || nodeType.includes('\r')) {
     throw new GodotMCPError('Invalid node type', 'INVALID_ARGS', 'Node type must not contain quotes or newlines.')
   }
 
-  const rawParent = (args.parent as string) || '.'
+  const rawParentArgument = args.parent
+  validateStringArguments('Invalid parent path', rawParentArgument)
+  const rawParent = (rawParentArgument as string | null | undefined) ?? '.'
   const { path: parent } = normalizeNodePath(rawParent)
   if (parent.includes('"') || parent.includes('\n') || parent.includes('\r')) {
     throw new GodotMCPError('Invalid parent path', 'INVALID_ARGS', 'Parent path must not contain quotes or newlines.')
@@ -153,9 +158,10 @@ async function handleAddNode(projectPath: string, args: Record<string, unknown>)
 async function handleRemoveNode(projectPath: string, args: Record<string, unknown>) {
   const scenePath = args.scene_path as string
   if (!scenePath) throw new GodotMCPError('No scene_path specified', 'INVALID_ARGS', 'Provide scene_path.')
-  const rawName = args.name as string
+  const rawName = args.name
+  validateStringArguments('Invalid node name', rawName)
   if (!rawName) throw new GodotMCPError('No node name specified', 'INVALID_ARGS', 'Provide name of node to remove.')
-  const { path: nodeName } = normalizeNodePath(rawName)
+  const { path: nodeName } = normalizeNodePath(rawName as string)
 
   const fullPath = resolveScenePath(projectPath, scenePath)
   const content = await readSceneFile(fullPath, scenePath)
@@ -168,10 +174,13 @@ async function handleRemoveNode(projectPath: string, args: Record<string, unknow
 async function handleRenameNode(projectPath: string, args: Record<string, unknown>) {
   const scenePath = args.scene_path as string
   if (!scenePath) throw new GodotMCPError('No scene_path specified', 'INVALID_ARGS', 'Provide scene_path.')
-  const { path: nodeName } = normalizeNodePath((args.name as string) || '')
+  const rawName = args.name
+  validateStringArguments('Invalid node name', rawName)
+  const { path: nodeName } = normalizeNodePath((rawName as string | null | undefined) ?? '')
   const newName = args.new_name as string
   if (!nodeName || !newName)
     throw new GodotMCPError('Both name and new_name required', 'INVALID_ARGS', 'Provide name and new_name.')
+  validateStringArguments('Invalid node name', newName)
 
   if (newName.includes('"') || newName.includes('\n') || newName.includes('\r')) {
     throw new GodotMCPError('Invalid node name', 'INVALID_ARGS', 'New node name must not contain quotes or newlines.')
@@ -215,12 +224,20 @@ async function handleListNodes(projectPath: string, args: Record<string, unknown
 async function handleSetNodeProperty(projectPath: string, args: Record<string, unknown>) {
   const scenePath = args.scene_path as string
   if (!scenePath) throw new GodotMCPError('No scene_path specified', 'INVALID_ARGS', 'Provide scene_path.')
-  const { path: nodeName } = normalizeNodePath((args.name as string) || '')
+  const rawName = args.name
+  validateStringArguments('Invalid node name', rawName)
+  const { path: nodeName } = normalizeNodePath((rawName as string | null | undefined) ?? '')
   const property = args.property as string
-  const value = args.value as string
-  if (!nodeName || !property || value === undefined) {
+  const rawValue = args.value
+  if (!nodeName || !property || rawValue === undefined) {
     throw new GodotMCPError('name, property, and value required', 'INVALID_ARGS', 'Provide name, property, and value.')
   }
+  validateStringArguments('Invalid property key', property)
+  validateStringArguments('Invalid property value', rawValue)
+  if (rawValue === null) {
+    throw new GodotMCPError('Invalid property value', 'INVALID_ARGS')
+  }
+  const value = rawValue as string
 
   if (property.includes('=') || property.includes('\n') || property.includes('\r')) {
     throw new GodotMCPError('Invalid property key', 'INVALID_ARGS', 'Property keys must not contain "=", newlines.')
@@ -240,7 +257,9 @@ async function handleSetNodeProperty(projectPath: string, args: Record<string, u
 async function handleGetNodeProperty(projectPath: string, args: Record<string, unknown>) {
   const scenePath = args.scene_path as string
   if (!scenePath) throw new GodotMCPError('No scene_path specified', 'INVALID_ARGS', 'Provide scene_path.')
-  const { path: nodeName } = normalizeNodePath((args.name as string) || '')
+  const rawName = args.name
+  validateStringArguments('Invalid node name', rawName)
+  const { path: nodeName } = normalizeNodePath((rawName as string | null | undefined) ?? '')
   const property = args.property as string
   if (!nodeName || !property) {
     throw new GodotMCPError('name and property required', 'INVALID_ARGS', 'Provide name and property.')
