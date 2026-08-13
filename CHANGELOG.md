@@ -2,6 +2,80 @@
 
 <!-- version list -->
 
+## v1.23.0-beta.1 (2026-08-13)
+
+### Bug Fixes
+
+- Accept archive directory entries ([#1077](https://github.com/n24q02m/better-godot-mcp/pull/1077),
+  [`619282b`](https://github.com/n24q02m/better-godot-mcp/commit/619282b1512e2f6d097570f3b24b55af7822ca1a))
+
+- Add Godot Asset Store submission media
+  ([#1078](https://github.com/n24q02m/better-godot-mcp/pull/1078),
+  [`c043ff6`](https://github.com/n24q02m/better-godot-mcp/commit/c043ff62cc60f1f5593a37cf346eab1f1721a862))
+
+- Complete Godot Asset Store media readiness
+  ([#1078](https://github.com/n24q02m/better-godot-mcp/pull/1078),
+  [`c043ff6`](https://github.com/n24q02m/better-godot-mcp/commit/c043ff62cc60f1f5593a37cf346eab1f1721a862))
+
+- Format Asset Store package checks ([#1077](https://github.com/n24q02m/better-godot-mcp/pull/1077),
+  [`619282b`](https://github.com/n24q02m/better-godot-mcp/commit/619282b1512e2f6d097570f3b24b55af7822ca1a))
+
+- Harden repository automation checks
+  ([#1082](https://github.com/n24q02m/better-godot-mcp/pull/1082),
+  [`af49a70`](https://github.com/n24q02m/better-godot-mcp/commit/af49a70a5dc70ac297a1a7e6039ac833a02381ef))
+
+- Optimize scene content array handling
+  ([`bd440ca`](https://github.com/n24q02m/better-godot-mcp/commit/bd440caf2bab5a53327524b89231b65cb80465f9))
+
+- Pre-allocate ui control results
+  ([`dc40660`](https://github.com/n24q02m/better-godot-mcp/commit/dc40660d22bafeae4614606f93c7ddb57dc9ac56))
+
+- Prepare Godot Asset Library package
+  ([#1076](https://github.com/n24q02m/better-godot-mcp/pull/1076),
+  [`dc197a1`](https://github.com/n24q02m/better-godot-mcp/commit/dc197a1b4ae8a1c636b53002dad7153e35b17db1))
+
+- Reject non-string Godot template arguments
+  ([`c62c708`](https://github.com/n24q02m/better-godot-mcp/commit/c62c708b0a66c129a021668f0aeddb0b643b7136))
+
+- Scope Asset Store archive attributes
+  ([#1077](https://github.com/n24q02m/better-godot-mcp/pull/1077),
+  [`619282b`](https://github.com/n24q02m/better-godot-mcp/commit/619282b1512e2f6d097570f3b24b55af7822ca1a))
+
+- Stabilize Godot editor plugin verification
+  ([#1078](https://github.com/n24q02m/better-godot-mcp/pull/1078),
+  [`c043ff6`](https://github.com/n24q02m/better-godot-mcp/commit/c043ff62cc60f1f5593a37cf346eab1f1721a862))
+
+- Update better-semantic-release action to v1.3.0
+  ([`a1cba5d`](https://github.com/n24q02m/better-godot-mcp/commit/a1cba5d75a530ce09a4ce22386c27c5c4da21ff6))
+
+- **deps**: Lock file maintenance ([#1080](https://github.com/n24q02m/better-godot-mcp/pull/1080),
+  [`0006a34`](https://github.com/n24q02m/better-godot-mcp/commit/0006a34509992dbd8d114c7986064a178149f0e5))
+
+- **deps**: Lock file maintenance ([#1072](https://github.com/n24q02m/better-godot-mcp/pull/1072),
+  [`5649a66`](https://github.com/n24q02m/better-godot-mcp/commit/5649a6647de4f462ed6770c386decf5281b4e582))
+
+- **deps**: Update @biomejs/biome to ^2.5.7
+  ([#1075](https://github.com/n24q02m/better-godot-mcp/pull/1075),
+  [`dcff131`](https://github.com/n24q02m/better-godot-mcp/commit/dcff131833517f4e338eaa99d7402f9d9834740e))
+
+- **deps**: Update patch dependencies
+  ([#1079](https://github.com/n24q02m/better-godot-mcp/pull/1079),
+  [`9546cf0`](https://github.com/n24q02m/better-godot-mcp/commit/9546cf006365f424ee6753b3be0ad5ea91e61980))
+
+### Features
+
+- Add Godot Asset Store package export
+  ([#1077](https://github.com/n24q02m/better-godot-mcp/pull/1077),
+  [`619282b`](https://github.com/n24q02m/better-godot-mcp/commit/619282b1512e2f6d097570f3b24b55af7822ca1a))
+
+- Add Godot editor plugin companion
+  ([`6a3f319`](https://github.com/n24q02m/better-godot-mcp/commit/6a3f31964ff67d9f17aba26daff56c5436d6b3ea))
+
+- Prepare Godot Asset Store package export
+  ([#1077](https://github.com/n24q02m/better-godot-mcp/pull/1077),
+  [`619282b`](https://github.com/n24q02m/better-godot-mcp/commit/619282b1512e2f6d097570f3b24b55af7822ca1a))
+
+
 ## v1.22.0 (2026-08-11)
 
 ### Bug Fixes
