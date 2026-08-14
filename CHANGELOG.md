@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.23.1-beta.1 (2026-08-14)
+
+### Bug Fixes
+
+- Keep Godot protocol harness compatible with MCP SDK
+  ([`1b62d74`](https://github.com/n24q02m/better-godot-mcp/commit/1b62d7498bd286582f42c2317e231f00d5680471))
+
+
 ## v1.23.0 (2026-08-14)
 
 
