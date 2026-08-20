@@ -1,0 +1,8 @@
+{
+  "name": "godot-mcp-render",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npx -y @n24q02m/better-godot-mcp --http"
+  },
+  "dependencies": {}
+}   
